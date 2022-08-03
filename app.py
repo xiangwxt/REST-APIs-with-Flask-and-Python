@@ -22,7 +22,7 @@ db.init_app(app)
 
 
 app.config["SQLAlCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URL"] = os.environ.get(
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
     "DATABASE_URL", "sqlite:///data.db"
 )
 # DATABASE_URL: the variable that Heroku created as environment variable, but it's not defined in local
