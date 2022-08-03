@@ -1,0 +1,87 @@
+What is a web server?
+A piece of software designed to accept incoming web requests
+What do we send?
+GET/ HTTP/1.1
+Host: www.google.com
+
+Get: what's expected of a server
+/: path which is what we want out of the server
+HTTP/1.1: protocol
+
+E.g. Twitter login
+GET /login HTTP/1.1
+Host: <https://twitter.com>
+/: the home page
+
+Going to a page will always do a GET
+But there are many other things we can do
+GET: retrieve something              e.g. GET /item/1
+POST: receive data and use it        e.g. POST /item # will 
+DELETE: remove something             e.g. DELETE /item
+PUT: make sure something is there    e.g. PUT /item  # it may update the data if it already exist
+OPTIONS
+HEAD
+
+Item resource
+/item/chair
+REST is stateless
+One request cannot depend on any other requests.
+The server only knows about the current request, and not any previous requests.
+
+POST /item/chair creates an item.
+The server doesn't know the item now exists.
+GET /item/chair then goes to the database and checks to see if the item is there.
+To get an item you do not need to have created an item before the item could be in the database from previously.
+
+E.g. A user logs in to a web application
+The web server doesn't know the user is logged in (since it does not remember any state)
+The web application must send enough data to identify the user in **every request**, or else the server won't associate the request with the user.
+
+In postman:
+POST:
+need to go to Headers: set key: Content-Type, value: application/json
+then go to body, select raw, type in json text
+'''
+{"name": "Another item",
+"price": 10.99
+}
+'''
+But whenever you restart the server, we lose the applications memory. The stored variables get deleted.
+
+CRUD APIs:
+Create, read, update, delete.
+Flask-jwt configuration:
+https://blog.teclado.com/learn-python-advanced-configuration-of-flask-jwt/
+
+Section 6
+Python packages:
+Create directory and add __init__.py file in each directory (necessary for older version of python)
+models: internal representation of an entity, a helper that allows programs or gives us more flexibility in our programme without polluting the resource.
+resources: external representation of an entity
+
+Set Postman
+Add environment: key: url, value: http://127.0.0.1:5000
+Replace the url with {{url}}
+
+How to save token as a variable:
+POST {{url}}/auth
+Test tab:
+Response body: JSON value check:
+To check the token is not none
+Then:
+Set an environment variable
+To set the variable for jwt_token
+
+
+var jsonData = JSON.parse(responseBody);
+tests["Test"] = jsonData.access_token !== undefined;
+
+pm.environment.set("jwt_token", jsonData.access_token);
+
+The following is not correct
+pm.test("Your test name", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.access_token).to.not.eql(undefined);
+});
+
+pm.environment.set("jwt_token", jsonData.access_token);

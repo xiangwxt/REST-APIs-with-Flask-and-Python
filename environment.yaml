@@ -1,0 +1,12 @@
+name: flask_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - pandas
+  - pip
+    - flask
+    - Flask-RESTful
+    - flask-jwt-extended
+prefix: /Users/wenxinxiang/opt/miniconda3/envs/flask_env
