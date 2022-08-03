@@ -1,4 +1,6 @@
 # Need to use python 3.9 to use flask_jwt package
+import os  # access to operating system's environmental variables
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -19,16 +21,13 @@ from db import db
 db.init_app(app)
 
 
-app.config[
-    "SQLAlCHEMY_TRACK_MODIFICATIONS"
-] = False  # track everything happening in the sqlalchemy section,
-# It takes resources, it turns off the flask_sqlalchemy modification tracker.
-# We turn it off because the library has its own modification tracker.
-app.config[
-    "SQLALCHEMY_DATABASE_URL"
-] = "sqlite:///data.db"  # the sqlalchemy database lives in the root folder of the project
-# could replace the sqlite with postgressql or oracle etc.
-app.secret_key = "thea"  # If this were used in production, it would have been long and complicated.  # not used in anywhere
+app.config["SQLAlCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URL"] = os.environ.get(
+    "DATABASE_URL", "sqlite:///data.db"
+)
+# DATABASE_URL: the variable that Heroku created as environment variable, but it's not defined in local
+# if the first one is not found, use the second default variable instead
+app.secret_key = "thea"
 api = Api(app)
 
 
